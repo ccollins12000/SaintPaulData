@@ -51,8 +51,12 @@ def update_data_sets(api_token):
     urls = {
         'bike_ped_accidents': 'https://information.stpaul.gov/resource/bw92-5h94.json',
         'crime': 'https://information.stpaul.gov/resource/gppb-g9cg.json',
-        'budget': 'https://information.stpaul.gov/resource/hgx3-a7ev.json'
+        'budget': 'https://information.stpaul.gov/resource/hgx3-a7ev.json',
+        'police_grid_shapes': 'https://information.stpaul.gov/resource/xfxz-iqwn.json',
+        'district_council_shapes': 'https://information.stpaul.gov/resource/kiaj-ufhe.json',
+        'council_ward_shapes': 'https://information.stpaul.gov/resource/tc7y-gce5.json'
     }
+
     for (data_set, url) in urls.items():
         retriever = DataRetriever(url, app_token)
         data = retriever.fetch_data()
