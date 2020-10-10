@@ -6,6 +6,12 @@ import time
 
 class DataRetriever:
     def __init__(self, api_url, app_token):
+        """The constructor for the data retriever
+
+        args:
+            api_url (str): The url/end point to the data api
+            app_token (str): The api token Sign up for token here https://dev.socrata.com/register
+        """
         self._APP_TOKEN = app_token
         self._API_URL = api_url
         self._HEADERS = {'Accept':'application/json'}
@@ -15,6 +21,11 @@ class DataRetriever:
         self._PARAMETERS.pop('$select')
 
     def fetch_data(self):
+        """Call this to fetch all the data from the api
+
+        returns:
+            A list of all the reults
+        """
         data = []
 
         parameters = self._PARAMETERS
@@ -30,15 +41,24 @@ class DataRetriever:
 
         return data
 
-if __name__ == "__main__":
+
+def update_data_sets(api_token):
+    """Downloads all the data to CSV files
+
+    args:
+        api_token (str):  The api token Sign up for token here https://dev.socrata.com/register
+    """
     urls = {
         'bike_ped_accidents': 'https://information.stpaul.gov/resource/bw92-5h94.json',
         'crime': 'https://information.stpaul.gov/resource/gppb-g9cg.json',
         'budget': 'https://information.stpaul.gov/resource/hgx3-a7ev.json'
     }
+    for (data_set, url) in urls.items():
+        retriever = DataRetriever(url, app_token)
+        data = retriever.fetch_data()
+        pd.DataFrame(data).to_csv(r'data/' + data_set + '.csv')
 
-    # select=count(*)
+
+if __name__ == "__main__":
     app_token = input('Enter your app token: ')
-    retriever = DataRetriever(urls['budget'], app_token)
-    data = retriever.fetch_data()
-    print(pd.DataFrame(data))
+    update_data_sets(app_token)
